@@ -92,7 +92,7 @@
         tTextLabel.textColor = [UIColor whiteColor];
         tTextLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15.0f];
         tTextLabel.text = NSLocalizedString(@"Achievement Unlocked", @"Achievemnt Unlocked Message");
-        tTextLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
+        tTextLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         self.textLabel = tTextLabel;
         [tTextLabel release];
 
@@ -104,7 +104,7 @@
         tDetailLabel.backgroundColor = [UIColor clearColor];
         tDetailLabel.textColor = [UIColor whiteColor];
         tDetailLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:11.0f];
-        tDetailLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
+        tDetailLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         self.detailLabel = tDetailLabel;
         [tDetailLabel release];
 

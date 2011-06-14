@@ -17,8 +17,8 @@
 
 #define kGKAchievementText1         CGRectMake(10.0, 6.0f, 264.0f, 22.0f);
 #define kGKAchievementText2         CGRectMake(10.0, 20.0f, 264.0f, 22.0f);
-#define kGKAchievementText1WLogo    CGRectMake(35.0, 6.0f, 229.0f, 22.0f);
-#define kGKAchievementText2WLogo    CGRectMake(35.0, 20.0f, 229.0f, 22.0f);
+#define kGKAchievementText1WLogo    CGRectMake(46.0, 6.0f, 229.0f, 22.0f);
+#define kGKAchievementText2WLogo    CGRectMake(46.0, 20.0f, 229.0f, 22.0f);
 
 #pragma mark -
 
