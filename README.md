@@ -21,7 +21,7 @@ Here are the main features of this fork:
 
 * it works for me in both iOS4 and iOS5 beta1
 
-Unlike original branch of GKAchievementNotification, this fork will add notification to the view of your RootController, so device rotations will be handled automatically.
+Unlike original branch, this fork will add notification to the view of your RootViewController, so device rotations will be handled automatically.
 
 Using it
 --------
@@ -55,7 +55,7 @@ You can also edit the gk-notification.png images to change the stretchable backg
 
 Notes
 --------
-If you created your project back in iOS3 days, than you probably don't have a rootController set for your window. Make sure to set using something like this in your application delegate:
+If you created your project back in iOS3 days, than you probably don't have a rootViewController set for your window. Make sure to set using something like this in your application delegate:
 <code>
 	self.window.rootViewController = self.navigationController;	
 </code>
