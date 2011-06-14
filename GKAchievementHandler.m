@@ -35,7 +35,7 @@ static GKAchievementHandler *defaultHandler = nil;
         [notification setImage:nil];
     }
 
-    
+    UIView *_topView = [[[[UIApplication sharedApplication] keyWindow] rootViewController ] view];
     [_topView addSubview:notification];
     // adjust size and position of notification view
     CGFloat width = 284.0f;
@@ -83,7 +83,6 @@ static GKAchievementHandler *defaultHandler = nil;
     self = [super init];
     if (self != nil)
     {
-        _topView = [[[[UIApplication sharedApplication] keyWindow] rootViewController ] view];
         _queue = [[NSMutableArray alloc] initWithCapacity:0];
         self.image = [UIImage imageNamed:@"gk-icon.png"];
     }
