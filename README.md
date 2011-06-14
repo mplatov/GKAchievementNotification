@@ -10,10 +10,15 @@ How this fork is different?
 --------
 I tried using both original version from [typeonerror](https://github.com/typeoneerror/GKAchievementNotification) as well as a fork from [jfro](https://github.com/jfro/BCAchievementNotification), but they didn't work me. 
 Here are the main features of this fork:
+
 * notifications are displayed correctly on iPhone/iPad in all interface orientations
+
 * notification view can be easily resized and repositioned
+
 * notifications can be displayed from the non-main threads as well
+
 * animations are using iOS4-style animation blocks
+
 * it works for me in both iOS4 and iOS5 beta1
 
 Unlike original branch of GKAchievementNotification, this fork will add notification to the view of your RootController, so device rotations will be handled automatically.
