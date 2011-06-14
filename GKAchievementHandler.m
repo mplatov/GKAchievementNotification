@@ -35,8 +35,31 @@ static GKAchievementHandler *defaultHandler = nil;
         [notification setImage:nil];
     }
 
+    
     [_topView addSubview:notification];
-    [notification animateIn];
+    // adjust size and position of notification view
+    CGFloat width = 284.0f;
+    CGFloat middle_x = 0;
+    UIViewController *controller = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ){
+        width = 445.0f;
+    }
+    else {
+        if (controller.interfaceOrientation == UIInterfaceOrientationLandscapeLeft || controller.interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+            width = 443.0f;
+        }
+    }
+    
+    if ( controller.interfaceOrientation == UIInterfaceOrientationPortrait || controller.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
+        middle_x = _topView.frame.size.width/2;
+    }
+    else {
+        middle_x = _topView.frame.size.height/2;
+    }
+    
+    notification.frame = CGRectMake(0, -53.0, width, 52.0f);
+    notification.center = CGPointMake(middle_x, notification.center.y);
+    [notification animate];
 }
 
 @end
@@ -60,7 +83,7 @@ static GKAchievementHandler *defaultHandler = nil;
     self = [super init];
     if (self != nil)
     {
-        _topView = [[UIApplication sharedApplication] keyWindow];
+        _topView = [[[[UIApplication sharedApplication] keyWindow] rootViewController ] view];
         _queue = [[NSMutableArray alloc] initWithCapacity:0];
         self.image = [UIImage imageNamed:@"gk-icon.png"];
     }
@@ -79,12 +102,12 @@ static GKAchievementHandler *defaultHandler = nil;
 - (void)notifyAchievement:(GKAchievementDescription *)achievement
 {
     GKAchievementNotification *notification = [[[GKAchievementNotification alloc] initWithAchievementDescription:achievement] autorelease];
-    notification.frame = kGKAchievementFrameStart;
     notification.handlerDelegate = self;
 
     [_queue addObject:notification];
-    if ([_queue count] == 1)
+    if ([_queue count] && isShown == NO)
     {
+        isShown = YES;
         [self displayNotification:notification];
     }
 }
@@ -92,13 +115,13 @@ static GKAchievementHandler *defaultHandler = nil;
 - (void)notifyAchievementTitle:(NSString *)title andMessage:(NSString *)message
 {
     GKAchievementNotification *notification = [[[GKAchievementNotification alloc] initWithTitle:title andMessage:message] autorelease];
-    notification.frame = kGKAchievementFrameStart;
     notification.handlerDelegate = self;
 
     [_queue addObject:notification];
-    if ([_queue count] == 1)
+    if ([_queue count] && isShown == NO)
     {
-        [self displayNotification:notification];
+        isShown = YES;
+        [self performSelectorOnMainThread:@selector(displayNotification:) withObject:notification waitUntilDone:YES];
     }
 }
 
@@ -107,10 +130,15 @@ static GKAchievementHandler *defaultHandler = nil;
 
 - (void)didHideAchievementNotification:(GKAchievementNotification *)notification
 {
-    [_queue removeObjectAtIndex:0];
+    if ([_queue count]) {
+        [_queue removeObjectAtIndex:0];
+    }
     if ([_queue count])
     {
         [self displayNotification:(GKAchievementNotification *)[_queue objectAtIndex:0]];
+    }
+    else {
+        isShown = NO;
     }
 }
 

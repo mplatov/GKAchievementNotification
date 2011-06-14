@@ -13,8 +13,6 @@
 
 @interface GKAchievementNotification(private)
 
-- (void)animationInDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context;
-- (void)animationOutDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context;
 - (void)delegateCallback:(SEL)selector withObject:(id)object;
 
 @end
@@ -22,18 +20,6 @@
 #pragma mark -
 
 @implementation GKAchievementNotification(private)
-
-- (void)animationInDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
-{
-    [self delegateCallback:@selector(didShowAchievementNotification:) withObject:self];
-    [self performSelector:@selector(animateOut) withObject:nil afterDelay:kGKAchievementDisplayTime];
-}
-
-- (void)animationOutDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
-{
-    [self delegateCallback:@selector(didHideAchievementNotification:) withObject:self];
-    [self removeFromSuperview];
-}
 
 - (void)delegateCallback:(SEL)selector withObject:(id)object
 {
@@ -57,8 +43,8 @@
 @synthesize handlerDelegate=_handlerDelegate;
 @synthesize detailLabel=_detailLabel;
 @synthesize logo=_logo;
-@synthesize message=_message;
-@synthesize title=_title;
+@synthesize messageString=_messageString;
+@synthesize titleString=_titleString;
 @synthesize textLabel=_textLabel;
 
 #pragma mark -
@@ -76,11 +62,9 @@
 - (id)initWithTitle:(NSString *)title andMessage:(NSString *)message
 {
     CGRect frame = kGKAchievementDefaultSize;
-    self.title = title;
-    self.message = message;
-    if ((self == [self initWithFrame:frame]))
-    {
-    }
+    self.titleString = title;
+    self.messageString = message;
+    [self initWithFrame:frame];
     return self;
 }
 
@@ -108,6 +92,7 @@
         tTextLabel.textColor = [UIColor whiteColor];
         tTextLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15.0f];
         tTextLabel.text = NSLocalizedString(@"Achievement Unlocked", @"Achievemnt Unlocked Message");
+        tTextLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
         self.textLabel = tTextLabel;
         [tTextLabel release];
 
@@ -119,6 +104,7 @@
         tDetailLabel.backgroundColor = [UIColor clearColor];
         tDetailLabel.textColor = [UIColor whiteColor];
         tDetailLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:11.0f];
+        tDetailLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleLeftMargin;
         self.detailLabel = tDetailLabel;
         [tDetailLabel release];
 
@@ -129,36 +115,35 @@
         }
         else
         {
-            if (self.title)
+            if (self.titleString)
             {
-                self.textLabel.text = self.title;
+                self.textLabel.text = self.titleString;
             }
-            if (self.message)
+            if (self.messageString)
             {
-                self.detailLabel.text = self.message;
+                self.detailLabel.text = self.messageString;
             }
         }
 
         [self addSubview:self.textLabel];
         [self addSubview:self.detailLabel];
+        self.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
     }
     return self;
 }
 
 - (void)dealloc
 {
-    NSLog(@"dealloc: GKAchievementNotification");
-    
     self.handlerDelegate = nil;
     self.logo = nil;
+    self.messageString = nil;
+    self.titleString = nil;
     
     [_achievement release];
     [_background release];
     [_detailLabel release];
     [_logo release];
-    [_message release];
     [_textLabel release];
-    [_title release];
     
     [super dealloc];
 }
@@ -166,28 +151,29 @@
 
 #pragma mark -
 
-- (void)animateIn
-{
-    [self delegateCallback:@selector(willShowAchievementNotification:) withObject:self];
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:kGKAchievementAnimeTime];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationBeginsFromCurrentState:YES];
-    [UIView setAnimationDidStopSelector:@selector(animationInDidStop:finished:context:)];
-    self.frame = kGKAchievementFrameEnd;
-    [UIView commitAnimations];
-}
-
-- (void)animateOut
-{
-    [self delegateCallback:@selector(willHideAchievementNotification:) withObject:self];
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:kGKAchievementAnimeTime];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationBeginsFromCurrentState:YES];
-    [UIView setAnimationDidStopSelector:@selector(animationOutDidStop:finished:context:)];
-    self.frame = kGKAchievementFrameStart;
-    [UIView commitAnimations];
+-(void)animate {
+    [UIView animateWithDuration:kGKAchievementAnimeTime
+                          delay:0.0f 
+                        options:UIViewAnimationOptionBeginFromCurrentState     
+                     animations:^{ 
+						 [self delegateCallback:@selector(willShowAchievementNotification:) withObject:self];
+                         self.frame = CGRectMake(self.frame.origin.x, 10.0f, self.frame.size.width, self.frame.size.height);
+                     } 
+                     completion:^(BOOL finished){
+						 [self delegateCallback:@selector(didShowAchievementNotification:) withObject:self];
+                         [UIView animateWithDuration:kGKAchievementAnimeTime 
+                                               delay:kGKAchievementDisplayTime 
+                                             options:UIViewAnimationOptionBeginFromCurrentState
+                                          animations:^{ 
+											  [self delegateCallback:@selector(willHideAchievementNotification:) withObject:self];
+                                              self.frame = CGRectMake(self.frame.origin.x , -53.0f, self.frame.size.width, self.frame.size.height);
+                         } 
+                         completion:^(BOOL finished){
+							 [self delegateCallback:@selector(didHideAchievementNotification:) withObject:self];
+                             [self removeFromSuperview];
+                         }];
+                         
+                     }];
 }
 
 - (void)setImage:(UIImage *)image
@@ -197,7 +183,7 @@
         if (!self.logo)
         {
             UIImageView *tLogo = [[UIImageView alloc] initWithFrame:CGRectMake(7.0f, 6.0f, 34.0f, 34.0f)];
-            tLogo.contentMode = UIViewContentModeCenter;
+            tLogo.contentMode = UIViewContentModeScaleAspectFit;
             self.logo = tLogo;
             [tLogo release];
             [self addSubview:self.logo];

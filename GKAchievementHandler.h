@@ -23,6 +23,7 @@
     UIView         *_topView;  /**< Reference to top view of UIApplication. */
     NSMutableArray *_queue;    /**< Queue of achievement notifiers to display. */
     UIImage        *_image;    /**< Logo to display in notifications. */
+    BOOL           isShown;
 }
 
 /** Logo to display in notifications. */

@@ -1,4 +1,4 @@
-//
+	//
 //  GKAchievementNotification.h
 //
 //  Created by Benjamin Borowski on 9/30/10.
@@ -14,13 +14,11 @@
 #define kGKAchievementDisplayTime   1.75f
 
 #define kGKAchievementDefaultSize   CGRectMake(0.0f, 0.0f, 284.0f, 52.0f);
-#define kGKAchievementFrameStart    CGRectMake(18.0f, -53.0f, 284.0f, 52.0f);
-#define kGKAchievementFrameEnd      CGRectMake(18.0f, 10.0f, 284.0f, 52.0f);
 
 #define kGKAchievementText1         CGRectMake(10.0, 6.0f, 264.0f, 22.0f);
 #define kGKAchievementText2         CGRectMake(10.0, 20.0f, 264.0f, 22.0f);
-#define kGKAchievementText1WLogo    CGRectMake(45.0, 6.0f, 229.0f, 22.0f);
-#define kGKAchievementText2WLogo    CGRectMake(45.0, 20.0f, 229.0f, 22.0f);
+#define kGKAchievementText1WLogo    CGRectMake(35.0, 6.0f, 229.0f, 22.0f);
+#define kGKAchievementText2WLogo    CGRectMake(35.0, 20.0f, 229.0f, 22.0f);
 
 #pragma mark -
 
@@ -67,8 +65,8 @@
 {
     GKAchievementDescription  *_achievement;  /**< Description of achievement earned. */
 
-    NSString *_message;  /**< Optional custom achievement message. */
-    NSString *_title;    /**< Optional custom achievement title. */
+    NSString *_messageString;  /**< Optional custom achievement message. */
+    NSString *_titleString;    /**< Optional custom achievement title. */
 
     UIImageView  *_background;  /**< Stretchable background view. */
     UIImageView  *_logo;        /**< Logo that is displayed on the left. */
@@ -82,9 +80,9 @@
 /** Description of achievement earned. */
 @property (nonatomic, retain) GKAchievementDescription *achievement;
 /** Optional custom achievement message. */
-@property (nonatomic, retain) NSString *message;
+@property (nonatomic, retain) NSString *messageString;
 /** Optional custom achievement title. */
-@property (nonatomic, retain) NSString *title;
+@property (nonatomic, retain) NSString *titleString;
 /** Stretchable background view. */
 @property (nonatomic, retain) UIImageView *background;
 /** Logo that is displayed on the left. */
@@ -113,15 +111,7 @@
  */
 - (id)initWithTitle:(NSString *)title andMessage:(NSString *)message;
 
-/**
- * Show the notification.
- */
-- (void)animateIn;
-
-/**
- * Hide the notificaiton.
- */
-- (void)animateOut;
+-(void) animate;
 
 /**
  * Change the logo that appears on the left.
