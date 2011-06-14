@@ -65,8 +65,8 @@
 {
     GKAchievementDescription  *_achievement;  /**< Description of achievement earned. */
 
-    NSString *_messageString;  /**< Optional custom achievement message. */
-    NSString *_titleString;    /**< Optional custom achievement title. */
+    NSString *_message;  /**< Optional custom achievement message. */
+    NSString *_title;    /**< Optional custom achievement title. */
 
     UIImageView  *_background;  /**< Stretchable background view. */
     UIImageView  *_logo;        /**< Logo that is displayed on the left. */
@@ -80,9 +80,9 @@
 /** Description of achievement earned. */
 @property (nonatomic, retain) GKAchievementDescription *achievement;
 /** Optional custom achievement message. */
-@property (nonatomic, retain) NSString *messageString;
+@property (nonatomic, retain) NSString *message;
 /** Optional custom achievement title. */
-@property (nonatomic, retain) NSString *titleString;
+@property (nonatomic, retain) NSString *title;
 /** Stretchable background view. */
 @property (nonatomic, retain) UIImageView *background;
 /** Logo that is displayed on the left. */

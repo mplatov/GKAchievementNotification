@@ -43,8 +43,8 @@
 @synthesize handlerDelegate=_handlerDelegate;
 @synthesize detailLabel=_detailLabel;
 @synthesize logo=_logo;
-@synthesize messageString=_messageString;
-@synthesize titleString=_titleString;
+@synthesize message=_message;
+@synthesize title=_title;
 @synthesize textLabel=_textLabel;
 
 #pragma mark -
@@ -62,8 +62,8 @@
 - (id)initWithTitle:(NSString *)title andMessage:(NSString *)message
 {
     CGRect frame = kGKAchievementDefaultSize;
-    self.titleString = title;
-    self.messageString = message;
+    self.title = title;
+    self.message = message;
     [self initWithFrame:frame];
     return self;
 }
@@ -115,13 +115,13 @@
         }
         else
         {
-            if (self.titleString)
+            if (self.title)
             {
-                self.textLabel.text = self.titleString;
+                self.textLabel.text = self.title;
             }
-            if (self.messageString)
+            if (self.message)
             {
-                self.detailLabel.text = self.messageString;
+                self.detailLabel.text = self.message;
             }
         }
 
@@ -136,8 +136,8 @@
 {
     self.handlerDelegate = nil;
     self.logo = nil;
-    self.messageString = nil;
-    self.titleString = nil;
+    self.message = nil;
+    self.title = nil;
     
     [_achievement release];
     [_background release];
