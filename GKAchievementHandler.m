@@ -98,18 +98,6 @@ static GKAchievementHandler *defaultHandler = nil;
 
 #pragma mark -
 
-- (void)notifyAchievement:(GKAchievementDescription *)achievement
-{
-    GKAchievementNotification *notification = [[[GKAchievementNotification alloc] initWithAchievementDescription:achievement] autorelease];
-    notification.handlerDelegate = self;
-
-    [_queue addObject:notification];
-    if ([_queue count] && isShown == NO)
-    {
-        isShown = YES;
-        [self displayNotification:notification];
-    }
-}
 
 - (void)notifyAchievementTitle:(NSString *)title andMessage:(NSString *)message
 {
@@ -123,6 +111,11 @@ static GKAchievementHandler *defaultHandler = nil;
         [self performSelectorOnMainThread:@selector(displayNotification:) withObject:notification waitUntilDone:YES];
     }
 }
+
+- (void)notifyAchievement:(GKAchievementDescription *)achievement {
+    [self notifyAchievementTitle:achievement.title andMessage:achievement.achievedDescription];
+}
+
 
 #pragma mark -
 #pragma mark GKAchievementHandlerDelegate implementation

@@ -63,8 +63,6 @@
  */
 @interface GKAchievementNotification : UIView
 {
-    GKAchievementDescription  *_achievement;  /**< Description of achievement earned. */
-
     NSString *_message;  /**< Optional custom achievement message. */
     NSString *_title;    /**< Optional custom achievement title. */
 
@@ -77,8 +75,6 @@
     id<GKAchievementHandlerDelegate> _handlerDelegate;  /**< Reference to nofification handler. */
 }
 
-/** Description of achievement earned. */
-@property (nonatomic, retain) GKAchievementDescription *achievement;
 /** Optional custom achievement message. */
 @property (nonatomic, retain) NSString *message;
 /** Optional custom achievement title. */
@@ -96,12 +92,6 @@
 
 #pragma mark -
 
-/**
- * Create a notification with an achievement description.
- * @param achievement  Achievement description to notify user of earning.
- * @return a GKAchievementNoficiation view.
- */
-- (id)initWithAchievementDescription:(GKAchievementDescription *)achievement;
 
 /**
  * Create a notification with a custom title and description.

@@ -38,7 +38,6 @@
 
 @implementation GKAchievementNotification
 
-@synthesize achievement=_achievement;
 @synthesize background=_background;
 @synthesize handlerDelegate=_handlerDelegate;
 @synthesize detailLabel=_detailLabel;
@@ -49,15 +48,6 @@
 
 #pragma mark -
 
-- (id)initWithAchievementDescription:(GKAchievementDescription *)achievement
-{
-    CGRect frame = kGKAchievementDefaultSize;
-    self.achievement = achievement;
-    if ((self = [self initWithFrame:frame]))
-    {
-    }
-    return self;
-}
 
 - (id)initWithTitle:(NSString *)title andMessage:(NSString *)message
 {
@@ -108,21 +98,13 @@
         self.detailLabel = tDetailLabel;
         [tDetailLabel release];
 
-        if (self.achievement)
+        if (self.title)
         {
-            self.textLabel.text = self.achievement.title;
-            self.detailLabel.text = self.achievement.achievedDescription;
+            self.textLabel.text = self.title;
         }
-        else
+        if (self.message)
         {
-            if (self.title)
-            {
-                self.textLabel.text = self.title;
-            }
-            if (self.message)
-            {
-                self.detailLabel.text = self.message;
-            }
+            self.detailLabel.text = self.message;
         }
 
         [self addSubview:self.textLabel];
@@ -138,12 +120,10 @@
     self.logo = nil;
     self.message = nil;
     self.title = nil;
-    
-    [_achievement release];
-    [_background release];
-    [_detailLabel release];
-    [_logo release];
-    [_textLabel release];
+    self.detailLabel = nil;
+    self.textLabel = nil;
+    self.logo = nil;
+    self.background = nil;
     
     [super dealloc];
 }
